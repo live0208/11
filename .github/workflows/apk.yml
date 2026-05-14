@@ -1,0 +1,21 @@
+name: Build APK
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: android-actions/setup-android@v3
+      - run: npm install -g @bubblewrap/cli
+      - run: |
+          bubblewrap init --manifest https://comforting-torte-2e148b.netlify.app/manifest.json --directory twa
+          bubblewrap build
+        working-directory: /tmp
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guangyu-apk
+          path: /tmp/twa/app-release-signed.apk
