@@ -1,0 +1,24 @@
+{
+  "packageName": "app.guangyu.light",
+  "name": "光予",
+  "display": "standalone",
+  "startUrl": "https://live0208.github.io/11/",
+  "themeColor": "#F5E6D3",
+  "backgroundColor": "#F5E6D3",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "signingKey": {
+    "path": "android.keystore",
+    "alias": "guangyu"
+  },
+  "iconUrl": "https://live0208.github.io/11/icon-512.png",
+  "maskableIconUrl": "https://live0208.github.io/11/icon-512.png",
+  "monochromeIconUrl": "https://live0208.github.io/11/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "host": "live0208.github.io",
+  "launcherName": "光予",
+  "webManifestUrl": "https://live0208.github.io/11/manifest.json",
+  "fallbackType": "customtabs",
+  "enableSiteSettingsShortcut": true
+}
