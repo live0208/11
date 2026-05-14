@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#F5E6D3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="光予">
+<link rel="manifest" href="manifest.json">
+<title>光予 · 轻盈生活手账</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ==================== STATUS BAR ==================== -->
+<div class="status-bar" id="statusBar">
+  <span>9:41</span>
+  <span class="flower-icon" id="flowerIcon" title="经期关怀">🌸</span>
+  <span>🔋</span>
+</div>
+
+<!-- ==================== MODAL: 晨间总结 ==================== -->
+<div class="modal-overlay" id="morningModal">
+  <div class="modal-card">
+    <div class="letter-stain"></div>
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <div class="cat-sleeping" style="position:absolute;top:16px;left:20px;"></div>
+    <div class="dog-peeking" style="position:absolute;bottom:16px;right:16px;"></div>
+    <h3>☀ 早安</h3>
+    <div class="letter-body" id="letterBody">
+      昨天是个温柔的日子。你记下了2餐、走了4200步。<br><br>
+      今天小雨，18°C。小予已经撑好了叶子伞，出门的话慢慢走，不急。
+    </div>
+    <div class="letter-footer">— 小光，尾巴轻轻搭在信纸上</div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: HOME ==================== -->
+<div class="page active" id="page-home">
+  <!-- Weather -->
+  <div class="card weather-card" id="weatherCard">
+    <span class="weather-icon">🌧️</span>
+    <span class="weather-text handwrite" id="weatherText">今天小雨，18°C，小予说带伞哦</span>
+    <div class="dog-peeking" style="position:absolute;bottom:-4px;right:12px;" title="小予撑叶子伞"></div>
+    <div class="cat-sleeping" style="position:absolute;top:4px;left:8px;transform:scale(0.7);" title="小光在听雨"></div>
+  </div>
+
+  <!-- Daily Tip -->
+  <div class="daily-tip">
+    <div id="dailyTipText">小光说，今天很适合慢慢散步</div>
+    <div class="speaker">— 小光，尾巴轻轻摇了摇</div>
+  </div>
+
+  <!-- Ring Row -->
+  <div class="ring-row">
+    <div class="card ring-card" id="energyCard" onclick="switchPage('food')">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 100 100" width="90" height="90">
+          <circle class="ring-bg" cx="50" cy="50" r="42"/>
+          <circle class="ring-fill" id="energyRing" cx="50" cy="50" r="42"
+            stroke="#E8925C" stroke-dasharray="264" stroke-dashoffset="79"/>
+        </svg>
+        <div class="cat-sleeping" style="position:absolute;top:-2px;left:50%;transform:translateX(-50%) scale(0.6);"></div>
+      </div>
+      <div class="ring-label">今日能量环</div>
+      <div class="ring-sub">3餐已记</div>
+    </div>
+    <div class="card ring-card" id="stepsCard">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 100 100" width="90" height="90">
+          <circle class="ring-bg" cx="50" cy="50" r="42"/>
+          <circle class="ring-fill" id="stepsRing" cx="50" cy="50" r="42"
+            stroke="#A3BFA8" stroke-dasharray="264" stroke-dashoffset="106"/>
+        </svg>
+        <div class="dog-sitting" style="position:absolute;bottom:-4px;right:-8px;transform:scale(0.6);"></div>
+      </div>
+      <div class="ring-label">步数</div>
+      <div class="ring-sub">4,200 / 6,000</div>
+    </div>
+  </div>
+
+  <!-- Sleep Bar -->
+  <div class="sleep-bar" onclick="switchPage('sleep')">
+    <span class="sleep-icon">🌙</span>
+    <span>昨晚入睡 23:12 · 小光守了 7h 32min</span>
+    <div class="cat-sleeping" style="margin-left:auto;transform:scale(0.7);" title="小光在守夜"></div>
+  </div>
+
+  <!-- Flash Notes Preview -->
+  <div class="notes-section" id="notesPreview">
+    <div class="note-card">
+      <div class="note-line green"></div>
+      <span class="note-text">背完25个词，serendipity真好看</span>
+      <span class="note-time">16:30</span>
+    </div>
+    <div class="note-card">
+      <div class="note-line pink"></div>
+      <span class="note-text">今天雨声很好听，读了一会书</span>
+      <span class="note-time">20:15</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: FOOD CAMERA ==================== -->
+<div class="page" id="page-food">
+  <h3 style="text-align:center;margin-top:20px;color:var(--twilight)">📷 拍照识食</h3>
+  <div class="card food-frame">
+    <div class="food-viewfinder" id="foodView" onclick="simulateFoodPhoto()">
+      <span style="font-size:64px;">🍜</span>
+    </div>
+    <p style="text-align:center;font-size:13px;color:var(--twilight-light);margin:12px 0;">
+      小予在看着呢，给它看看今天吃什么
+    </p>
+  </div>
+  <div class="card food-result" id="foodResult">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:32px;">🥘</span>
+      <span style="font-size:16px;color:var(--twilight);" id="foodRecognized">这个菜菜有点神秘，你能告诉它叫什么吗？</span>
+    </div>
+    <div class="dog-peeking" style="position:absolute;top:-8px;right:16px;" title="小予探头"></div>
+    <input class="food-input" id="foodNameInput" placeholder="输入菜名，比如'妈妈做的红烧肉'" onfocus="this.select()">
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="note-cat" onclick="saveFood()">✓ 记下啦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: SLEEP ==================== -->
+<div class="page" id="page-sleep" style="background:linear-gradient(180deg,#2C2418 0%,#1E1810 100%);min-height:100vh;color:#D4C5A9;">
+  <div class="sleep-ring-big">
+    <div class="ring-outer" id="sleepRing">
+      <div class="cat-sleeping" style="transform:scale(2);position:relative;top:-6px;" id="sleepCat"></div>
+    </div>
+  </div>
+  <p class="sleep-hint" style="color:#A89980;">长按2秒，小光陪你入睡</p>
+  <p style="text-align:center;font-size:12px;color:#A89980;margin-top:8px;" id="sleepStatus">小光在等你呢</p>
+</div>
+
+<!-- ==================== PAGE: MOOD ==================== -->
+<div class="page" id="page-mood">
+  <h3 style="text-align:center;margin-top:30px;color:var(--twilight)">今天的你是什么颜色的？</h3>
+  <div class="mood-options">
+    <div class="card mood-option" onclick="pickMood('元气')">
+      <span style="font-size:40px;">☀️</span>
+      <div><strong>元气</strong><br><small>小予竖着耳朵在笑</small></div>
+      <div class="dog-sitting" style="transform:scale(0.8);position:relative;"></div>
+    </div>
+    <div class="card mood-option" onclick="pickMood('一般')">
+      <span style="font-size:40px;">🌤️</span>
+      <div><strong>一般</strong><br><small>小予歪着头看着你</small></div>
+    </div>
+    <div class="card mood-option" onclick="pickMood('低落')">
+      <span style="font-size:40px;">🌧️</span>
+      <div><strong>低落</strong><br><small>小光安静地坐着</small></div>
+      <div class="cat-sleeping" style="transform:scale(0.7);position:relative;opacity:0.7;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: RECORD TREEHOLE ==================== -->
+<div class="page" id="page-record" style="background:linear-gradient(180deg,#2C2B3A 0%,#1E1D28 100%);min-height:100vh;">
+  <div style="margin-top:50px;text-align:center;">
+    <div class="record-ring" id="recordRing">
+      <div class="record-ripple" id="recordRipple"></div>
+      <div class="cat-sleeping" style="transform:scale(1.8);position:relative;" id="recordCat"></div>
+    </div>
+  </div>
+  <p class="record-hint" style="color:#A89980;">长按开始 · 松手暂停 · 上滑封存</p>
+  <p style="text-align:center;font-size:12px;color:rgba(168,153,128,0.6);margin-top:24px;">
+    把想说的放在这里，小光会替你收好
+  </p>
+  <div class="dog-sitting" style="position:absolute;bottom:120px;right:30px;transform:scale(0.8);opacity:0.6;"></div>
+</div>
+
+<!-- ==================== PAGE: NOTE EDIT ==================== -->
+<div class="page" id="page-note">
+  <h3 style="text-align:center;margin-top:20px;color:var(--twilight)">✨ 闪光小记</h3>
+  <div class="note-editor show" id="noteEditor">
+    <div class="note-cats" id="noteCats">
+      <span class="note-cat picked" data-cat="学习">📖 学习</span>
+      <span class="note-cat" data-cat="心情">💭 心情</span>
+      <span class="note-cat" data-cat="美食">🍽️ 美食</span>
+      <span class="note-cat" data-cat="日常">✨ 日常</span>
+    </div>
+    <textarea placeholder="给今天一个闪光的注脚吧…" id="noteText"></textarea>
+    <span class="star-btn" id="starBtn" onclick="lightStar()">☆</span>
+    <p style="text-align:right;font-size:11px;color:var(--twilight-light);margin-top:-8px;">点星星收藏</p>
+  </div>
+  <div class="card" id="noteSaved" style="display:none;text-align:center;padding:32px;">
+    <span style="font-size:40px;">⭐</span>
+    <p style="margin-top:8px;color:var(--twilight);">闪光已收录进「闪光印记本」</p>
+    <p style="font-size:12px;color:var(--twilight-light);">小予跳起来碰了星星 ✨</p>
+  </div>
+</div>
+
+<!-- ==================== FAB ==================== -->
+<div class="fab" onclick="openNote()">
+  <span>+</span>
+  <div class="fab-badge">🐶</div>
+</div>
+
+<!-- ==================== BOTTOM NAV ==================== -->
+<nav class="bottom-nav">
+  <div class="nav-item active" data-page="home" onclick="switchPage('home')">
+    <span class="nav-icon">🏠<span class="mini-pet">🐱</span></span>
+    <span>首页</span>
+  </div>
+  <div class="nav-item" data-page="record" onclick="switchPage('record')">
+    <span class="nav-icon">🎙️<span class="mini-pet">🐶</span></span>
+    <span>树洞</span>
+  </div>
+  <div class="nav-item" data-page="mood" onclick="switchPage('mood')">
+    <span class="nav-icon">💛</span>
+    <span>心情</span>
+  </div>
+  <div class="nav-item" data-page="food" onclick="switchPage('food')">
+    <span class="nav-icon">🍽️</span>
+    <span>饮食</span>
+  </div>
+</nav>
+
+<script src="js/app.js"></script>
+</body>
+</html>
