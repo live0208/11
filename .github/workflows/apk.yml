@@ -9,11 +9,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-34 build-tools;34.0.0'
       - run: npm install -g @bubblewrap/cli
       - run: |
-          echo "y" | bubblewrap init --manifest https://comforting-torte-2e148b.netlify.app/manifest.json --directory twa
-          bubblewrap build
+          printf "y\n" | bubblewrap init --manifest "https://comforting-torte-2e148b.netlify.app/manifest.json" --directory twa
         working-directory: /tmp
+      - run: bubblewrap build
+        working-directory: /tmp/twa
       - uses: actions/upload-artifact@v4
         with:
           name: guangyu-apk
