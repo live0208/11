@@ -17,22 +17,21 @@ jobs:
           
       - run: npm install -g @bubblewrap/cli
       
-      - name: Start local HTTP server for manifest
+      - name: Start local HTTP server
         run: |
           cd app
           python3 -m http.server 8080 &
           sleep 2
+          curl -s http://localhost:8080/manifest.json | head -3
           
-      - name: Bubblewrap init
-        run: |
-          printf "y\ny\n" | bubblewrap init --manifest "http://localhost:8080/manifest.json" --directory twa
-        working-directory: /tmp
+      - name: Generate TWA project
+        run: node gen_twa.js
         
       - name: Bubblewrap build
         run: bubblewrap build
-        working-directory: /tmp/twa
+        working-directory: output/twa-project
         
       - uses: actions/upload-artifact@v4
         with:
           name: guangyu-apk
-          path: /tmp/twa/app-release-signed.apk
+          path: output/twa-project/app/build/outputs/apk/release/app-release-signed.apk
