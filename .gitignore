@@ -1,0 +1,14 @@
+# Build artifacts
+output/
+*.zip
+
+# Node
+node_modules/
+
+# Temp
+screenshot.jpg
+explore_core.js
+test_bw.js
+
+# APPDATA symlink/dir
+${APPDATA}/
